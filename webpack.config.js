@@ -12,7 +12,7 @@ const config = {
     ignored: /node_modules/,
   },
   output: {
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(__dirname, 'public'),
   },
   devServer: {
     open: true,
