@@ -1,4 +1,4 @@
-const renderForm = (state, elements, value) => {
+const renderForm = (state, elements, value, i18nextInstance) => {
   const { formState } = state;
   const { input, feedback, sendButton } = elements;
   if (value === 'processing') {
@@ -9,7 +9,7 @@ const renderForm = (state, elements, value) => {
     input.classList.remove('is-invalid');
   }
   if (value === 'failed') {
-    feedback.textContent = formState.error;
+    feedback.textContent = i18nextInstance.t(formState.error);
     feedback.classList.add('text-danger');
     input.classList.add('is-invalid');
     input.removeAttribute('disabled');
@@ -18,11 +18,11 @@ const renderForm = (state, elements, value) => {
   }
 };
 
-const renderLoading = (state, elements, value) => {
+const renderLoading = (state, elements, value, i18nextInstance) => {
   const { statusLoading } = state;
   const { input, feedback, sendButton } = elements;
   if (value === 'succsess') {
-    feedback.textContent = 'RSS загружен';
+    feedback.textContent = i18nextInstance.t('success');
     feedback.classList.add('text-success');
     sendButton.removeAttribute('disabled');
     input.removeAttribute('disabled');
@@ -30,7 +30,7 @@ const renderLoading = (state, elements, value) => {
     input.focus();
   }
   if (value === 'failed') {
-    feedback.textContent = statusLoading.error;
+    feedback.textContent = i18nextInstance.t(statusLoading.error);
     console.log(statusLoading.error);
     feedback.classList.add('text-danger');
     input.classList.add('is-invalid');
@@ -39,11 +39,11 @@ const renderLoading = (state, elements, value) => {
   }
 };
 
-export default (state, elements) => (path, value) => {
+export default (state, elements, i18nextInstance) => (path, value) => {
   if (path === 'formState.status') {
-    renderForm(state, elements, value);
+    renderForm(state, elements, value, i18nextInstance);
   }
   if (path === 'statusLoading.status') {
-    renderLoading(state, elements, value);
+    renderLoading(state, elements, value, i18nextInstance);
   }
 };
