@@ -1,14 +1,16 @@
-/* eslint-disable eqeqeq */
-// Generated using webpack-cli https://github.com/webpack/webpack-cli
-
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const WorkboxWebpackPlugin = require('workbox-webpack-plugin');
 
-const isProduction = process.env.NODE_ENV == 'production';
+const isProduction = process.env.NODE_ENV === 'production';
 
 const config = {
   entry: './src/index.js',
+  watchOptions: {
+    aggregateTimeout: 1000,
+    poll: 1000,
+    ignored: /node_modules/,
+  },
   output: {
     path: path.resolve(__dirname, 'dist'),
   },
@@ -20,9 +22,6 @@ const config = {
     new HtmlWebpackPlugin({
       template: 'index.html',
     }),
-
-    // Add your plugins here
-    // Learn more about plugins from https://webpack.js.org/configuration/plugins/
   ],
   module: {
     rules: [
@@ -35,9 +34,6 @@ const config = {
         test: /\.scss$/,
         use: ['style-loader', 'css-loader', 'sass-loader', 'postcss-loader'],
       },
-
-    // Add your rules for custom modules here
-    // Learn more about loaders from https://webpack.js.org/loaders/
     ],
   },
 };
