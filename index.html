@@ -10,8 +10,10 @@
       <section class="container-fluid bg-dark p-5">
         <div class="row">
           <div class="col-md-10 col-lg-8 mx-auto text-white">
-            <h1 class="display-3 mb-0 text-warning">RSS агрегатор</h1>
-            <p class="lead">
+            <h1 class="display-3 mb-0 text-warning opacity-75">
+              RSS агрегатор
+            </h1>
+            <p class="lead opacity-75">
               Начните читать RSS сегодня! Это легко, это красиво.
             </p>
             <form action="" class="rss-form text-body">
@@ -24,6 +26,7 @@
                       aria-label="url"
                       class="form-control w-100"
                       placeholder="ссылка RSS"
+                      autofocus
                     />
                     <label for="url-input">Ссылка RSS</label>
                   </div>
@@ -32,13 +35,16 @@
                   <button
                     type="submit"
                     aria-label="add"
-                    class="h-100 btn btn-lg btn-light px-sm-5"
+                    class="h-100 btn btn-lg btn-light px-sm-5 border border-primary"
                   >
                     Добавить
                   </button>
                 </div>
               </div>
             </form>
+            <p class="mt-2 mb-0 text-warning opacity-50">
+              Пример: http://lorem-rss.herokuapp.com/feed
+            </p>
             <p class="feedback m-0 position-absolute small text-danger"></p>
           </div>
         </div>
