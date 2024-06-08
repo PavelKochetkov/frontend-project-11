@@ -3,6 +3,8 @@ import onChange from 'on-change';
 import i18next from 'i18next';
 import ru from './ru.js';
 import view from './view.js';
+import proxy from './proxy.js';
+import parser from './parser.js';
 
 const state = {
   formState: {
@@ -14,12 +16,20 @@ const state = {
     error: '',
   },
   feeds: [],
+  posts: [],
+  urls: [],
 };
 
 const loading = (watchedState, url) => {
   const { statusLoading } = watchedState;
-  statusLoading.status = 'succsess';
-  watchedState.feeds.push(url);
+  proxy(url)
+    .then((response) => {
+      const { feeds, posts } = parser(response.data.contents);
+      statusLoading.status = 'succsess';
+      watchedState.urls.push(url);
+      watchedState.feeds.push(feeds);
+      watchedState.posts.push(posts);
+    });
 };
 
 const validate = (url, urlList) => {
@@ -36,6 +46,8 @@ export default () => {
     input: document.querySelector('#url-input'),
     feedback: document.querySelector('.feedback'),
     sendButton: document.querySelector('[type="submit"]'),
+    feedsCol: document.querySelector('.feeds'),
+    postsCol: document.querySelector('.posts'),
   };
   const i18nextInstance = i18next.createInstance();
   i18nextInstance.init({
@@ -51,7 +63,7 @@ export default () => {
       const data = new FormData(event.target);
       const url = data.get('url').trim();
       watchedState.formState.status = 'processing';
-      const urlList = watchedState.feeds.map((feed) => feed);
+      const urlList = watchedState.urls.map((urls) => urls);
       validate(url, urlList).then((error) => {
         if (error) {
           watchedState.formState.error = error.message;
