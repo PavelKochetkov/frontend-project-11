@@ -58,6 +58,7 @@ const renderCard = (title) => {
 const renderColFeeds = (state, elements) => {
   const { feedsCol } = elements;
   const { feeds } = state;
+  feedsCol.innerHTML = '';
   if (!feedsCol.hasChildNodes()) {
     const card = renderCard('Фиды');
     feedsCol.append(card);
@@ -74,7 +75,7 @@ const renderColFeeds = (state, elements) => {
     title.textContent = feed.title;
     description.classList.add('m-0', 'small', 'text-black-50');
     description.textContent = feed.description;
-    li.append(title, description, feed.idFeeds);
+    li.append(title, description);
     return li;
   });
   list.append(...items);
@@ -83,14 +84,14 @@ const renderColFeeds = (state, elements) => {
 const renderPosts = (state, elements) => {
   const { postsCol } = elements;
   const { posts } = state;
+  postsCol.innerHTML = '';
   if (!postsCol.hasChildNodes()) {
     const card = renderCard('Посты');
     postsCol.append(card);
   }
   const card = postsCol.querySelector('.card');
   const list = card.querySelector('ul');
-  const [post] = posts;
-  const items = post.map((item) => {
+  const items = posts.map((item) => {
     const li = document.createElement('li');
     const link = document.createElement('a');
     li.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'align-items-start', 'border-0', 'border-end-0');

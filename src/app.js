@@ -28,7 +28,12 @@ const loading = (watchedState, url) => {
       statusLoading.status = 'succsess';
       watchedState.urls.push(url);
       watchedState.feeds.push(feeds);
-      watchedState.posts.push(posts);
+      watchedState.posts.push(...posts);
+      statusLoading.status = '';
+    })
+    .catch(() => {
+      statusLoading.error = 'errorNetwork';
+      statusLoading.status = 'failed';
     });
 };
 

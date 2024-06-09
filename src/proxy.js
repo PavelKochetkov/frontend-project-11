@@ -6,6 +6,5 @@ export default (url) => axios.get(`https://allorigins.hexlet.app/get?disableCach
     throw new Error(response.status);
   })
   .catch((error) => {
-    console.error(error);
     throw error;
   });
