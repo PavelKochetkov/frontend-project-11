@@ -20,11 +20,28 @@ const state = {
   urls: [],
 };
 
+const checkNewPosts = (watchedState) => {
+  const { feeds } = watchedState;
+  const request = feeds.map((feed) => proxy(feed.url)
+    .then((responce) => {
+      const { posts } = parser(responce.data.contents);
+      const newPosts = posts
+        .filter((post) => !watchedState.posts.some((item) => item.title === post.title));
+      watchedState.posts.push(...newPosts);
+    })
+    .catch(() => {}));
+  Promise.all(request)
+    .then(() => {
+      setTimeout(() => checkNewPosts(watchedState), 5000);
+    });
+};
+
 const loading = (watchedState, url) => {
   const { statusLoading } = watchedState;
   proxy(url)
     .then((response) => {
       const { feeds, posts } = parser(response.data.contents);
+      feeds.url = url;
       statusLoading.status = 'succsess';
       watchedState.urls.push(url);
       watchedState.feeds.push(feeds);
@@ -77,7 +94,9 @@ export default () => {
         }
         watchedState.formState.error = '';
         loading(watchedState, url);
+        watchedState.formState.status = '';
       });
     }));
+    checkNewPosts(watchedState);
   });
 };
