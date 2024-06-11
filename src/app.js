@@ -18,6 +18,10 @@ const state = {
   feeds: [],
   posts: [],
   urls: [],
+  ui: {
+    id: null,
+    viewedPost: [],
+  },
 };
 
 const checkNewPosts = (watchedState) => {
@@ -70,6 +74,7 @@ export default () => {
     sendButton: document.querySelector('[type="submit"]'),
     feedsCol: document.querySelector('.feeds'),
     postsCol: document.querySelector('.posts'),
+    modal: document.querySelector('.modal'),
   };
   const i18nextInstance = i18next.createInstance();
   i18nextInstance.init({
@@ -97,6 +102,13 @@ export default () => {
         watchedState.formState.status = '';
       });
     }));
+    elements.postsCol.addEventListener('click', (event) => {
+      const { id } = event.target.dataset;
+      if (id) {
+        watchedState.ui.id = id;
+        watchedState.ui.viewedPost.push(id);
+      }
+    });
     checkNewPosts(watchedState);
   });
 };

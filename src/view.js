@@ -81,9 +81,9 @@ const renderColFeeds = (state, elements) => {
   list.append(...items);
 };
 
-const renderPosts = (state, elements) => {
+const renderPosts = (state, elements, i18nextInstance) => {
   const { postsCol } = elements;
-  const { posts } = state;
+  const { posts, ui } = state;
   postsCol.innerHTML = '';
   if (!postsCol.hasChildNodes()) {
     const card = renderCard('Посты');
@@ -93,17 +93,45 @@ const renderPosts = (state, elements) => {
   const list = card.querySelector('ul');
   const items = posts.map((item) => {
     const li = document.createElement('li');
+    const button = document.createElement('button');
     const link = document.createElement('a');
     li.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'align-items-start', 'border-0', 'border-end-0');
     link.classList.add('fw-bold');
     link.setAttribute('href', `${item.link}`);
     link.setAttribute('target', '_blank');
     link.setAttribute('rel', 'nofollow noreferrer');
+    link.setAttribute('data-id', `${item.idPost}`);
     link.textContent = item.titlePost;
-    li.append(link);
+    button.dataset.bsToogle = 'modal';
+    button.dataset.bsTarget = '#modal';
+    button.classList.add('btn', 'btn-outline-primary', 'btn-sm');
+    button.textContent = i18nextInstance.t('button.postButton');
+    button.dataset.id = item.idPost;
+    if (ui.viewedPost.includes(item.idPost)) {
+      link.classList.add('fw-normal', 'link-secondary');
+      link.classList.remove('fw-bold');
+    }
+    li.append(link, button);
     return li;
   });
   list.append(...items);
+};
+
+const renderModal = (state, elements) => {
+  const { modal } = elements;
+  const { posts, ui } = state;
+  console.log(ui);
+  const title = modal.querySelector('.modal-title');
+  const description = modal.querySelector('.modal-body');
+  const button = modal.querySelector('.modal-footer > a');
+  const viewPost = posts.find((post) => post.idPost === ui.id);
+  title.textContent = viewPost.titlePost;
+  description.textContent = viewPost.descriptionPost;
+  button.setAttribute('href', `${viewPost.link}`);
+  modal.classList.add('show');
+  modal.removeAttribute('aria-hidden');
+  modal.setAttribute('aria-modal', 'true');
+  modal.style.display = 'block';
 };
 
 export default (state, elements, i18nextInstance) => (path, value) => {
@@ -117,6 +145,9 @@ export default (state, elements, i18nextInstance) => (path, value) => {
     renderColFeeds(state, elements);
   }
   if (path === 'posts') {
-    renderPosts(state, elements);
+    renderPosts(state, elements, i18nextInstance);
+  }
+  if (path === 'ui.viewedPost') {
+    renderModal(state, elements);
   }
 };

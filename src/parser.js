@@ -9,7 +9,7 @@ const parse = (data) => {
   }
   const title = rss.querySelector('title').textContent;
   const description = rss.querySelector('description').textContent;
-  const idFeeds = Number(_.uniqueId());
+  const idFeeds = _.uniqueId();
   const feeds = { title, description, idFeeds };
   const items = document.querySelectorAll('item');
   const itemsList = Array.from(items);
@@ -17,7 +17,7 @@ const parse = (data) => {
     const titlePost = item.querySelector('title').textContent;
     const descriptionPost = item.querySelector('description').textContent;
     const link = item.querySelector('link').textContent;
-    const idPost = Number(_.uniqueId());
+    const idPost = _.uniqueId();
     const post = {
       titlePost,
       descriptionPost,
