@@ -38,7 +38,7 @@ const renderLoading = (state, elements, value, i18nextInstance) => {
   }
 };
 
-const renderCard = (title) => {
+const handleCard = (title) => {
   const card = document.createElement('div');
   const cardBody = document.createElement('div');
   const titleCard = document.createElement('h2');
@@ -55,13 +55,14 @@ const renderCard = (title) => {
 
   return card;
 };
+
 const renderColFeeds = (state, elements) => {
   const { feedsCol } = elements;
   const { feeds } = state;
   feedsCol.innerHTML = '';
   if (!feedsCol.hasChildNodes()) {
-    const feedsTitle = renderCard('Фиды');
-    feedsCol.append(feedsTitle);
+    const card = handleCard('Фиды');
+    feedsCol.append(card);
   }
   const card = feedsCol.querySelector('.card');
   const list = card.querySelector('ul');
@@ -86,8 +87,8 @@ const renderPosts = (state, elements, i18nextInstance) => {
   const { posts, ui } = state;
   postsCol.innerHTML = '';
   if (!postsCol.hasChildNodes()) {
-    const postsTitle = renderCard('Посты');
-    postsCol.append(postsTitle);
+    const card = handleCard('Посты');
+    postsCol.append(card);
   }
   const card = postsCol.querySelector('.card');
   const list = card.querySelector('ul');
