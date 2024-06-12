@@ -52,8 +52,12 @@ const loading = (watchedState, url) => {
       watchedState.posts.push(...posts);
       statusLoading.status = '';
     })
-    .catch(() => {
-      statusLoading.error = 'errorNetwork';
+    .catch((error) => {
+      if (error.message === 'invalidRSS') {
+        statusLoading.error = 'invalidRSS';
+      } else {
+        statusLoading.error = 'errorNetwork';
+      }
       statusLoading.status = 'failed';
     });
 };

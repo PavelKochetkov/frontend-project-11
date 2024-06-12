@@ -1,13 +1,13 @@
 export default {
   translation: {
-    errorNotValid: 'Не корректный URL',
-    errorNotFilledIn: 'Обязательно для заполнения',
+    errorNotValid: ' Ссылка должна быть валидным URL',
+    errorNotFilledIn: 'Не должно быть пустым',
     errorNotUnique: 'RSS уже существует',
     errorNetwork: 'Ошибка сети',
-    invalidRSS: 'Неверный формат RSS',
+    invalidRSS: 'Ресурс не содержит валидный RSS',
     button: {
       postButton: 'Просмотр',
     },
-    success: 'RSS загружен',
+    success: 'RSS успешно загружен',
   },
 };

@@ -102,7 +102,8 @@ const renderPosts = (state, elements, i18nextInstance) => {
     link.setAttribute('rel', 'nofollow noreferrer');
     link.setAttribute('data-id', `${item.idPost}`);
     link.textContent = item.titlePost;
-    button.dataset.bsToogle = 'modal';
+    button.setAttribute('type', 'button');
+    button.dataset.bsToggle = 'modal';
     button.dataset.bsTarget = '#modal';
     button.classList.add('btn', 'btn-outline-primary', 'btn-sm');
     button.textContent = i18nextInstance.t('button.postButton');
@@ -120,7 +121,6 @@ const renderPosts = (state, elements, i18nextInstance) => {
 const renderModal = (state, elements) => {
   const { modal } = elements;
   const { posts, ui } = state;
-  console.log(ui);
   const title = modal.querySelector('.modal-title');
   const description = modal.querySelector('.modal-body');
   const button = modal.querySelector('.modal-footer > a');
@@ -128,10 +128,6 @@ const renderModal = (state, elements) => {
   title.textContent = viewPost.titlePost;
   description.textContent = viewPost.descriptionPost;
   button.setAttribute('href', `${viewPost.link}`);
-  modal.classList.add('show');
-  modal.removeAttribute('aria-hidden');
-  modal.setAttribute('aria-modal', 'true');
-  modal.style.display = 'block';
 };
 
 export default (state, elements, i18nextInstance) => (path, value) => {
@@ -148,6 +144,7 @@ export default (state, elements, i18nextInstance) => (path, value) => {
     renderPosts(state, elements, i18nextInstance);
   }
   if (path === 'ui.viewedPost') {
+    renderPosts(state, elements, i18nextInstance);
     renderModal(state, elements);
   }
 };
