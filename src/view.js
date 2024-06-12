@@ -60,8 +60,8 @@ const renderColFeeds = (state, elements) => {
   const { feeds } = state;
   feedsCol.innerHTML = '';
   if (!feedsCol.hasChildNodes()) {
-    const card = renderCard('Фиды');
-    feedsCol.append(card);
+    const feedsTitle = renderCard('Фиды');
+    feedsCol.append(feedsTitle);
   }
   const card = feedsCol.querySelector('.card');
   const list = card.querySelector('ul');
@@ -86,8 +86,8 @@ const renderPosts = (state, elements, i18nextInstance) => {
   const { posts, ui } = state;
   postsCol.innerHTML = '';
   if (!postsCol.hasChildNodes()) {
-    const card = renderCard('Посты');
-    postsCol.append(card);
+    const postsTitle = renderCard('Посты');
+    postsCol.append(postsTitle);
   }
   const card = postsCol.querySelector('.card');
   const list = card.querySelector('ul');
