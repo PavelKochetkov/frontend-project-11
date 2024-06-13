@@ -47,4 +47,4 @@ make develop
 
 ## Демо
 
-Демо-версия приложения доступна по ссылке: [https://frontend-project-11-1r1izpbde.vercel.app/](https://frontend-project-11-1r1izpbde.vercel.app/)
+Демо-версия приложения доступна по ссылке: [https://frontend-project-11-iota-hazel.vercel.app/](https://frontend-project-11-iota-hazel.vercel.app/)
