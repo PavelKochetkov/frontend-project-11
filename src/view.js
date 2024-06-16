@@ -109,7 +109,7 @@ const renderPosts = (state, elements, i18nextInstance) => {
     button.classList.add('btn', 'btn-outline-primary', 'btn-sm');
     button.textContent = i18nextInstance.t('button.postButton');
     button.dataset.id = item.idPost;
-    if (ui.viewedPost.includes(item.idPost)) {
+    if (ui.viewedPost.has(item.idPost)) {
       link.classList.add('fw-normal', 'link-secondary');
       link.classList.remove('fw-bold');
     }

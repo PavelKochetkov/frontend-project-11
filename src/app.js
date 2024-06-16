@@ -20,7 +20,7 @@ const state = {
   urls: [],
   ui: {
     id: null,
-    viewedPost: [],
+    viewedPost: new Set(),
   },
 };
 
@@ -30,7 +30,7 @@ const checkNewPosts = (watchedState) => {
     .then((responce) => {
       const { posts } = parser(responce.data.contents);
       const newPosts = posts
-        .filter((post) => !watchedState.posts.some((item) => item.title === post.title));
+        .filter((post) => !watchedState.posts.some((item) => item.titlePost === post.titlePost));
       watchedState.posts.push(...newPosts);
     })
     .catch(() => {}));
@@ -110,7 +110,7 @@ export default () => {
       const { id } = event.target.dataset;
       if (id) {
         watchedState.ui.id = id;
-        watchedState.ui.viewedPost.push(id);
+        watchedState.ui.viewedPost.add(id);
       }
     });
     checkNewPosts(watchedState);
