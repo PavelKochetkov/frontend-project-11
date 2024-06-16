@@ -1,7 +1,7 @@
 import * as yup from 'yup';
 import onChange from 'on-change';
 import i18next from 'i18next';
-import ru from './ru.js';
+import resources from './locales/index.js';
 import view from './view.js';
 import proxy from './proxy.js';
 import parser from './parser.js';
@@ -85,7 +85,7 @@ export default () => {
     debug: true,
     lng: 'ru',
     resources: {
-      ru,
+      ru: resources.ru,
     },
   }).then(() => {
     const watchedState = onChange(state, view(state, elements, i18nextInstance));
