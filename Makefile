@@ -1,10 +1,10 @@
 install:
-		npm ci
+	npm ci
 lint:
-		npx eslint .
+	npx eslint .
 develop:
-		npx webpack serve
+	npx webpack serve
 deleted:
-		rm -rf dist
+	rm -rf dist
 build:
-		NODE_ENV=production npx webpack
+	NODE_ENV=production npx webpack
