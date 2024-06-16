@@ -7,11 +7,11 @@ import proxy from './proxy.js';
 import parser from './parser.js';
 
 const state = {
-  formState: {
+  form: {
     status: '',
     error: '',
   },
-  statusLoading: {
+  bootProcess: {
     status: '',
     error: '',
   },
@@ -41,24 +41,24 @@ const checkNewPosts = (watchedState) => {
 };
 
 const loading = (watchedState, url) => {
-  const { statusLoading } = watchedState;
+  const { bootProcess } = watchedState;
   proxy(url)
     .then((response) => {
       const { feeds, posts } = parser(response.data.contents);
       feeds.url = url;
-      statusLoading.status = 'succsess';
+      bootProcess.status = 'succsess';
       watchedState.urls.push(url);
       watchedState.feeds.push(feeds);
       watchedState.posts.push(...posts);
-      statusLoading.status = '';
+      bootProcess.status = '';
     })
     .catch((error) => {
       if (error.message === 'invalidRSS') {
-        statusLoading.error = 'invalidRSS';
+        bootProcess.error = 'invalidRSS';
       } else {
-        statusLoading.error = 'errorNetwork';
+        bootProcess.error = 'errorNetwork';
       }
-      statusLoading.status = 'failed';
+      bootProcess.status = 'failed';
     });
 };
 
@@ -93,17 +93,17 @@ export default () => {
       event.preventDefault();
       const data = new FormData(event.target);
       const url = data.get('url').trim();
-      watchedState.formState.status = 'processing';
+      watchedState.form.status = 'processing';
       const urlList = watchedState.urls.map((urls) => urls);
       validate(url, urlList).then((error) => {
         if (error) {
-          watchedState.formState.error = error.message;
-          watchedState.formState.status = 'failed';
+          watchedState.form.error = error.message;
+          watchedState.form.status = 'failed';
           return;
         }
-        watchedState.formState.error = '';
+        watchedState.form.error = '';
         loading(watchedState, url);
-        watchedState.formState.status = '';
+        watchedState.form.status = '';
       });
     }));
     elements.postsCol.addEventListener('click', (event) => {

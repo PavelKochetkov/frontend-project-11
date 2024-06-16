@@ -1,5 +1,5 @@
 const renderForm = (state, elements, value, i18nextInstance) => {
-  const { formState } = state;
+  const { form } = state;
   const { input, feedback, sendButton } = elements;
   if (value === 'processing') {
     input.setAttribute('disabled', '');
@@ -9,7 +9,7 @@ const renderForm = (state, elements, value, i18nextInstance) => {
     input.classList.remove('is-invalid');
   }
   if (value === 'failed') {
-    feedback.textContent = i18nextInstance.t(formState.error);
+    feedback.textContent = i18nextInstance.t(form.error);
     feedback.classList.add('text-danger');
     input.classList.add('is-invalid');
     input.removeAttribute('disabled');
@@ -19,7 +19,7 @@ const renderForm = (state, elements, value, i18nextInstance) => {
 };
 
 const renderLoading = (state, elements, value, i18nextInstance) => {
-  const { statusLoading } = state;
+  const { bootProcess } = state;
   const { input, feedback, sendButton } = elements;
   if (value === 'succsess') {
     feedback.textContent = i18nextInstance.t('success');
@@ -30,7 +30,7 @@ const renderLoading = (state, elements, value, i18nextInstance) => {
     input.focus();
   }
   if (value === 'failed') {
-    feedback.textContent = i18nextInstance.t(statusLoading.error);
+    feedback.textContent = i18nextInstance.t(bootProcess.error);
     feedback.classList.add('text-danger');
     input.classList.add('is-invalid');
     input.removeAttribute('disabled');
@@ -132,10 +132,10 @@ const renderModal = (state, elements) => {
 };
 
 export default (state, elements, i18nextInstance) => (path, value) => {
-  if (path === 'formState.status') {
+  if (path === 'form.status') {
     renderForm(state, elements, value, i18nextInstance);
   }
-  if (path === 'statusLoading.status') {
+  if (path === 'bootProcess.status') {
     renderLoading(state, elements, value, i18nextInstance);
   }
   if (path === 'feeds') {
