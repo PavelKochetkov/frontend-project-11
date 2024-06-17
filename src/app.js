@@ -16,7 +16,6 @@ const state = {
   },
   feeds: [],
   posts: [],
-  urls: [],
   ui: {
     id: null,
     viewedPost: new Set(),
@@ -46,7 +45,6 @@ const loading = (watchedState, url) => {
       const { feeds, posts } = parser(response.data.contents);
       feeds.url = url;
       bootProcess.status = 'succsess';
-      watchedState.urls.push(url);
       watchedState.feeds.push(feeds);
       watchedState.posts.push(...posts);
       bootProcess.status = '';
@@ -93,7 +91,7 @@ export default () => {
       const data = new FormData(event.target);
       const url = data.get('url').trim();
       watchedState.form.status = 'processing';
-      const urlList = watchedState.urls.map((urls) => urls);
+      const urlList = watchedState.feeds.map((feed) => feed.url);
       validate(url, urlList).then((error) => {
         if (error) {
           watchedState.form.error = error.message;
