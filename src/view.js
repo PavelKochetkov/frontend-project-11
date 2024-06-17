@@ -1,3 +1,5 @@
+import onChange from 'on-change';
+
 const renderForm = (state, elements, value, i18nextInstance) => {
   const { form } = state;
   const { input, feedback, sendButton } = elements;
@@ -131,7 +133,7 @@ const renderModal = (state, elements) => {
   button.setAttribute('href', `${viewPost.link}`);
 };
 
-export default (state, elements, i18nextInstance) => (path, value) => {
+const watch = (state, elements, i18nextInstance) => onChange(state, (path, value) => {
   if (path === 'form.status') {
     renderForm(state, elements, value, i18nextInstance);
   }
@@ -148,4 +150,6 @@ export default (state, elements, i18nextInstance) => (path, value) => {
     renderPosts(state, elements, i18nextInstance);
     renderModal(state, elements);
   }
-};
+});
+
+export default watch;

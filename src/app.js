@@ -1,8 +1,7 @@
 import * as yup from 'yup';
-import onChange from 'on-change';
 import i18next from 'i18next';
 import resources from './locales/index.js';
-import view from './view.js';
+import watch from './view.js';
 import proxy from './proxy.js';
 import parser from './parser.js';
 
@@ -88,7 +87,7 @@ export default () => {
       ru: resources.ru,
     },
   }).then(() => {
-    const watchedState = onChange(state, view(state, elements, i18nextInstance));
+    const watchedState = watch(state, elements, i18nextInstance);
     elements.form.addEventListener('submit', ((event) => {
       event.preventDefault();
       const data = new FormData(event.target);
