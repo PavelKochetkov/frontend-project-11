@@ -107,7 +107,6 @@ export default () => {
         watchedState.form.error = '';
         loading(watchedState, url);
       });
-      console.log(state);
     }));
     elements.postsCol.addEventListener('click', (event) => {
       const { id } = event.target.dataset;
@@ -118,5 +117,4 @@ export default () => {
     });
     checkNewPosts(watchedState);
   });
-  console.log(state);
 };
