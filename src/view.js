@@ -21,7 +21,7 @@ const renderForm = (state, elements, value, i18nextInstance) => {
 };
 
 const renderLoading = (state, elements, value, i18nextInstance) => {
-  const { bootProcess } = state;
+  const { loadingProcess } = state;
   const { input, feedback, sendButton } = elements;
   if (value === 'succsess') {
     feedback.textContent = i18nextInstance.t('success');
@@ -32,7 +32,7 @@ const renderLoading = (state, elements, value, i18nextInstance) => {
     input.focus();
   }
   if (value === 'failed') {
-    feedback.textContent = i18nextInstance.t(bootProcess.error);
+    feedback.textContent = i18nextInstance.t(loadingProcess.error);
     feedback.classList.add('text-danger');
     input.classList.add('is-invalid');
     input.removeAttribute('disabled');
@@ -103,15 +103,15 @@ const renderPosts = (state, elements, i18nextInstance) => {
     link.setAttribute('href', `${item.link}`);
     link.setAttribute('target', '_blank');
     link.setAttribute('rel', 'nofollow noreferrer');
-    link.setAttribute('data-id', `${item.idPost}`);
-    link.textContent = item.titlePost;
+    link.setAttribute('data-id', `${item.postId}`);
+    link.textContent = item.postTitle;
     button.setAttribute('type', 'button');
     button.dataset.bsToggle = 'modal';
     button.dataset.bsTarget = '#modal';
     button.classList.add('btn', 'btn-outline-primary', 'btn-sm');
     button.textContent = i18nextInstance.t('button.postButton');
-    button.dataset.id = item.idPost;
-    if (ui.viewedPost.has(item.idPost)) {
+    button.dataset.id = item.postId;
+    if (ui.viewedPost.has(item.postId)) {
       link.classList.add('fw-normal', 'link-secondary');
       link.classList.remove('fw-bold');
     }
@@ -127,9 +127,9 @@ const renderModal = (state, elements) => {
   const title = modal.querySelector('.modal-title');
   const description = modal.querySelector('.modal-body');
   const button = modal.querySelector('.modal-footer > a');
-  const viewPost = posts.find((post) => post.idPost === ui.id);
-  title.textContent = viewPost.titlePost;
-  description.textContent = viewPost.descriptionPost;
+  const viewPost = posts.find((post) => post.postId === ui.id);
+  title.textContent = viewPost.postTitle;
+  description.textContent = viewPost.postDescription;
   button.setAttribute('href', `${viewPost.link}`);
 };
 
@@ -137,7 +137,7 @@ const watch = (state, elements, i18nextInstance) => onChange(state, (path, value
   if (path === 'form.status') {
     renderForm(state, elements, value, i18nextInstance);
   }
-  if (path === 'bootProcess.status') {
+  if (path === 'loadingProcess.status') {
     renderLoading(state, elements, value, i18nextInstance);
   }
   if (path === 'feeds') {

@@ -5,6 +5,7 @@ export default {
     errorNotUnique: 'RSS уже существует',
     errorNetwork: 'Ошибка сети',
     invalidRSS: 'Ресурс не содержит валидный RSS',
+    errorUnknown: 'Неизвестная ошибка',
     button: {
       postButton: 'Просмотр',
     },

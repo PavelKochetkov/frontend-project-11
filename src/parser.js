@@ -5,28 +5,28 @@ const parse = (data) => {
   const document = parser.parseFromString(data, 'application/xml');
   const rss = document.querySelector('rss');
   if (!document.contains(rss)) {
-    throw new Error('invalidRSS');
+    const error = new Error('parserError');
+    error.parserError = true;
+    throw error;
   }
   const title = rss.querySelector('title').textContent;
   const description = rss.querySelector('description').textContent;
-  const idFeeds = _.uniqueId();
-  const feeds = { title, description, idFeeds };
-  const items = document.querySelectorAll('item');
-  const itemsList = Array.from(items);
-  const posts = itemsList.map((item) => {
-    const titlePost = item.querySelector('title').textContent;
-    const descriptionPost = item.querySelector('description').textContent;
+  const feedId = _.uniqueId();
+  const feed = { title, description, feedId };
+  const items = [...document.querySelectorAll('item')];
+  const posts = items.map((item) => {
+    const postTitle = item.querySelector('title').textContent;
+    const postDescription = item.querySelector('description').textContent;
     const link = item.querySelector('link').textContent;
-    const idPost = _.uniqueId();
-    const post = {
-      titlePost,
-      descriptionPost,
+    const postId = _.uniqueId();
+    return {
+      postTitle,
+      postDescription,
       link,
-      idPost,
+      postId,
     };
-    return post;
   });
-  return { feeds, posts };
+  return { feed, posts };
 };
 
 export default parse;

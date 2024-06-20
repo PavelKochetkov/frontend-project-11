@@ -10,7 +10,7 @@ const state = {
     status: '',
     error: '',
   },
-  bootProcess: {
+  loadingProcess: {
     status: '',
     error: '',
   },
@@ -22,40 +22,46 @@ const state = {
   },
 };
 
+const handleError = (error) => {
+  if (error.isAxiosError) {
+    return 'errorNetwork';
+  }
+  if (error.parserError) {
+    return 'invalidRSS';
+  }
+
+  return 'errorUnknown';
+};
+
 const checkNewPosts = (watchedState) => {
   const { feeds } = watchedState;
-  const request = feeds.map((feed) => proxy(feed.url)
-    .then((responce) => {
-      const { posts } = parser(responce.data.contents);
+  const promises = feeds.map((feed) => proxy(feed.url)
+    .then((response) => {
+      const { posts } = parser(response.data.contents);
       const newPosts = posts
-        .filter((post) => !watchedState.posts.some((item) => item.titlePost === post.titlePost));
+        .filter((post) => !watchedState.posts.some((item) => item.postTitle === post.postTitle));
       watchedState.posts.push(...newPosts);
     })
     .catch(() => {}));
-  Promise.all(request)
+  Promise.all(promises)
     .then(() => {
       setTimeout(() => checkNewPosts(watchedState), 5000);
     });
 };
 
 const loading = (watchedState, url) => {
-  const { bootProcess } = watchedState;
+  const { loadingProcess } = watchedState;
   proxy(url)
     .then((response) => {
-      const { feeds, posts } = parser(response.data.contents);
-      feeds.url = url;
-      bootProcess.status = 'succsess';
-      watchedState.feeds.push(feeds);
+      const { feed, posts } = parser(response.data.contents);
+      feed.url = url;
+      loadingProcess.status = 'succsess';
+      watchedState.feeds.push(feed);
       watchedState.posts.push(...posts);
-      bootProcess.status = '';
     })
     .catch((error) => {
-      if (error.message === 'invalidRSS') {
-        bootProcess.error = 'invalidRSS';
-      } else {
-        bootProcess.error = 'errorNetwork';
-      }
-      bootProcess.status = 'failed';
+      loadingProcess.error = handleError(error);
+      loadingProcess.status = 'failed';
     });
 };
 
@@ -100,8 +106,8 @@ export default () => {
         }
         watchedState.form.error = '';
         loading(watchedState, url);
-        watchedState.form.status = '';
       });
+      console.log(state);
     }));
     elements.postsCol.addEventListener('click', (event) => {
       const { id } = event.target.dataset;
@@ -112,4 +118,5 @@ export default () => {
     });
     checkNewPosts(watchedState);
   });
+  console.log(state);
 };
