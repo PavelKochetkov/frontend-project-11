@@ -37,9 +37,12 @@ const checkNewPosts = (watchedState) => {
   const { feeds } = watchedState;
   const promises = feeds.map((feed) => proxy(feed.url)
     .then((response) => {
+      const { feedId } = feed;
       const { posts } = parser(response.data.contents);
-      const newPosts = posts
-        .filter((post) => !watchedState.posts.some((item) => item.postTitle === post.postTitle));
+      const postsWithFeedId = posts.map((post) => ({ ...post, feedId }));
+      const newPosts = postsWithFeedId
+        .filter((post) => !watchedState.posts
+          .some((item) => item.postTitle === post.postTitle && post.feedId === feedId));
       watchedState.posts.push(...newPosts);
     })
     .catch(() => {}));
