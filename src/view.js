@@ -58,12 +58,12 @@ const handleCard = (title) => {
   return card;
 };
 
-const renderColFeeds = (state, elements) => {
+const renderColFeeds = (state, elements, i18nextInstance) => {
   const { feedsCol } = elements;
   const { feeds } = state;
   feedsCol.innerHTML = '';
   if (!feedsCol.hasChildNodes()) {
-    const card = handleCard('Фиды');
+    const card = handleCard(i18nextInstance.t('columnTitle.feeds'));
     feedsCol.append(card);
   }
   const card = feedsCol.querySelector('.card');
@@ -89,7 +89,7 @@ const renderPosts = (state, elements, i18nextInstance) => {
   const { posts, ui } = state;
   postsCol.innerHTML = '';
   if (!postsCol.hasChildNodes()) {
-    const card = handleCard('Посты');
+    const card = handleCard(i18nextInstance.t('columnTitle.posts'));
     postsCol.append(card);
   }
   const card = postsCol.querySelector('.card');
@@ -141,7 +141,7 @@ const watch = (state, elements, i18nextInstance) => onChange(state, (path, value
     renderLoading(state, elements, value, i18nextInstance);
   }
   if (path === 'feeds') {
-    renderColFeeds(state, elements);
+    renderColFeeds(state, elements, i18nextInstance);
   }
   if (path === 'posts') {
     renderPosts(state, elements, i18nextInstance);

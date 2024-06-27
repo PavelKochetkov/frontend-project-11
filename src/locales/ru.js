@@ -10,5 +10,9 @@ export default {
       postButton: 'Просмотр',
     },
     success: 'RSS успешно загружен',
+    columnTitle: {
+      feeds: 'Фиды',
+      posts: 'Посты',
+    },
   },
 };
