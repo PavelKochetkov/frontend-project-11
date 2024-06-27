@@ -1,16 +1,16 @@
 import onChange from 'on-change';
 
-const renderForm = (state, elements, value, i18nextInstance) => {
+const renderForm = (state, elements, status, i18nextInstance) => {
   const { form } = state;
   const { input, feedback, sendButton } = elements;
-  if (value === 'processing') {
+  if (status === 'processing') {
     input.setAttribute('disabled', '');
     sendButton.setAttribute('disabled', '');
     feedback.textContent = '';
     feedback.classList.remove('text-danger');
     input.classList.remove('is-invalid');
   }
-  if (value === 'failed') {
+  if (status === 'failed') {
     feedback.textContent = i18nextInstance.t(form.error);
     feedback.classList.add('text-danger');
     input.classList.add('is-invalid');
@@ -20,10 +20,10 @@ const renderForm = (state, elements, value, i18nextInstance) => {
   }
 };
 
-const renderLoading = (state, elements, value, i18nextInstance) => {
+const renderLoading = (state, elements, status, i18nextInstance) => {
   const { downloadProcess } = state;
   const { input, feedback, sendButton } = elements;
-  if (value === 'succsess') {
+  if (status === 'succsess') {
     feedback.textContent = i18nextInstance.t('success');
     feedback.classList.add('text-success');
     sendButton.removeAttribute('disabled');
@@ -31,7 +31,7 @@ const renderLoading = (state, elements, value, i18nextInstance) => {
     input.value = '';
     input.focus();
   }
-  if (value === 'failed') {
+  if (status === 'failed') {
     feedback.textContent = i18nextInstance.t(downloadProcess.error);
     feedback.classList.add('text-danger');
     input.classList.add('is-invalid');
