@@ -21,7 +21,7 @@ const renderForm = (state, elements, value, i18nextInstance) => {
 };
 
 const renderLoading = (state, elements, value, i18nextInstance) => {
-  const { loadingProcess } = state;
+  const { downloadProcess } = state;
   const { input, feedback, sendButton } = elements;
   if (value === 'succsess') {
     feedback.textContent = i18nextInstance.t('success');
@@ -32,7 +32,7 @@ const renderLoading = (state, elements, value, i18nextInstance) => {
     input.focus();
   }
   if (value === 'failed') {
-    feedback.textContent = i18nextInstance.t(loadingProcess.error);
+    feedback.textContent = i18nextInstance.t(downloadProcess.error);
     feedback.classList.add('text-danger');
     input.classList.add('is-invalid');
     input.removeAttribute('disabled');
@@ -137,7 +137,7 @@ const watch = (state, elements, i18nextInstance) => onChange(state, (path, value
   if (path === 'form.status') {
     renderForm(state, elements, value, i18nextInstance);
   }
-  if (path === 'loadingProcess.status') {
+  if (path === 'downloadProcess.status') {
     renderLoading(state, elements, value, i18nextInstance);
   }
   if (path === 'feeds') {

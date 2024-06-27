@@ -7,11 +7,11 @@ import parser from './parser.js';
 
 const state = {
   form: {
-    status: '',
+    status: 'idle',
     error: '',
   },
-  loadingProcess: {
-    status: '',
+  downloadProcess: {
+    status: 'idle',
     error: '',
   },
   feeds: [],
@@ -26,7 +26,7 @@ const handleError = (error) => {
   if (error.isAxiosError) {
     return 'errorNetwork';
   }
-  if (error.parserError) {
+  if (error.isParserError) {
     return 'invalidRSS';
   }
 
@@ -52,19 +52,19 @@ const checkNewPosts = (watchedState) => {
     });
 };
 
-const loading = (watchedState, url) => {
-  const { loadingProcess } = watchedState;
+const download = (watchedState, url) => {
+  const { downloadProcess } = watchedState;
   proxy(url)
     .then((response) => {
       const { feed, posts } = parser(response.data.contents);
       feed.url = url;
-      loadingProcess.status = 'succsess';
+      downloadProcess.status = 'succsess';
       watchedState.feeds.push(feed);
       watchedState.posts.push(...posts);
     })
     .catch((error) => {
-      loadingProcess.error = handleError(error);
-      loadingProcess.status = 'failed';
+      downloadProcess.error = handleError(error);
+      downloadProcess.status = 'failed';
     });
 };
 
@@ -108,7 +108,7 @@ export default () => {
           return;
         }
         watchedState.form.error = '';
-        loading(watchedState, url);
+        download(watchedState, url);
       });
     }));
     elements.postsCol.addEventListener('click', (event) => {

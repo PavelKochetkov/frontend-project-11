@@ -6,7 +6,7 @@ const parse = (data) => {
   const rss = document.querySelector('rss');
   if (!document.contains(rss)) {
     const error = new Error('parserError');
-    error.parserError = true;
+    error.isParserError = true;
     throw error;
   }
   const title = rss.querySelector('title').textContent;
