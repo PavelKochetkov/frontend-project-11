@@ -111,7 +111,7 @@ const renderPosts = (state, elements, i18nextInstance) => {
     button.classList.add('btn', 'btn-outline-primary', 'btn-sm');
     button.textContent = i18nextInstance.t('button.postButton');
     button.dataset.id = item.postId;
-    if (ui.viewedPost.has(item.postId)) {
+    if (ui.viewedPosts.has(item.postId)) {
       link.classList.add('fw-normal', 'link-secondary');
       link.classList.remove('fw-bold');
     }
@@ -146,7 +146,7 @@ const watch = (state, elements, i18nextInstance) => onChange(state, (path, value
   if (path === 'posts') {
     renderPosts(state, elements, i18nextInstance);
   }
-  if (path === 'ui.viewedPost') {
+  if (path === 'ui.viewedPosts') {
     renderPosts(state, elements, i18nextInstance);
     renderModal(state, elements);
   }

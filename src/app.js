@@ -18,7 +18,7 @@ const state = {
   posts: [],
   ui: {
     id: null,
-    viewedPost: new Set(),
+    viewedPosts: new Set(),
   },
 };
 
@@ -115,7 +115,7 @@ export default () => {
       const { id } = event.target.dataset;
       if (id) {
         watchedState.ui.id = id;
-        watchedState.ui.viewedPost.add(id);
+        watchedState.ui.viewedPosts.add(id);
       }
     });
     checkNewPosts(watchedState);
