@@ -11,8 +11,8 @@ const parse = (data) => {
   }
   const title = rss.querySelector('title').textContent;
   const description = rss.querySelector('description').textContent;
-  const feedId = _.uniqueId();
-  const feed = { title, description, feedId };
+  const feed = { title, description, feedId: _.uniqueId() };
+  const { feedId } = feed;
   const items = [...document.querySelectorAll('item')];
   const posts = items.map((item) => {
     const postTitle = item.querySelector('title').textContent;
@@ -24,6 +24,7 @@ const parse = (data) => {
       postDescription,
       link,
       postId,
+      feedId,
     };
   });
   return { feed, posts };

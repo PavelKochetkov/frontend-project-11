@@ -37,12 +37,10 @@ const checkNewPosts = (watchedState) => {
   const { feeds } = watchedState;
   const promises = feeds.map((feed) => proxy(feed.url)
     .then((response) => {
-      const { feedId } = feed;
       const { posts } = parser(response.data.contents);
-      const postsWithFeedId = posts.map((post) => ({ ...post, feedId }));
-      const newPosts = postsWithFeedId
+      const newPosts = posts
         .filter((post) => !watchedState.posts
-          .some((item) => item.postTitle === post.postTitle && post.feedId === feedId));
+          .some((item) => post.postTitle === item.postTitle));
       watchedState.posts.push(...newPosts);
     })
     .catch(() => {}));
@@ -114,8 +112,8 @@ export default () => {
     elements.postsCol.addEventListener('click', (event) => {
       const { id } = event.target.dataset;
       if (id) {
-        watchedState.ui.id = id;
         watchedState.ui.viewedPosts.add(id);
+        watchedState.ui.id = id;
       }
     });
     checkNewPosts(watchedState);

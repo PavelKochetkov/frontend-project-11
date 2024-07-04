@@ -146,7 +146,7 @@ const watch = (state, elements, i18nextInstance) => onChange(state, (path, value
   if (path === 'posts') {
     renderPosts(state, elements, i18nextInstance);
   }
-  if (path === 'ui.viewedPosts') {
+  if (path === 'ui.id') {
     renderPosts(state, elements, i18nextInstance);
     renderModal(state, elements);
   }
